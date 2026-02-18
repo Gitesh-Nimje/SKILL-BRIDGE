@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Engineer 2026 | System Readiness</title>
+    <style>
+        :root {
+            /* Updated to a "Circuit Board" Green and Deep Slate palette */
+            --bg: #0f172a; 
+            --card: #1e293b; 
+            --accent: #10b981; /* Emerald/IoT Green */
+            --item-bg: #334155;
+            --text-primary: #34d399;
+            --text-secondary: #94a3b8;
+            --white: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg); 
+            color: var(--white); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container { 
+            background: var(--card); 
+            padding: 2.5rem; 
+            border-radius: 16px; 
+            width: 100%; 
+            max-width: 500px; 
+            border: 1px solid #334155; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); 
+        }
+
+        h2 { 
+            color: var(--text-primary); 
+            margin-bottom: 8px; 
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle { 
+            color: var(--text-secondary); 
+            font-size: 0.95rem; 
+            margin-bottom: 25px; 
+        }
+
+        .option-group { 
+            display: flex;
+            flex-direction: column;
+            gap: 12px; 
+        }
+
+        .checkbox-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 14px 18px; 
+            background: var(--item-bg); 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            font-size: 1rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .checkbox-item:hover { 
+            background: #475569; 
+            border-color: var(--accent);
+        }
+
+        input[type="checkbox"] { 
+            accent-color: var(--accent); 
+            margin-right: 15px; 
+            width: 18px; 
+            height: 18px; 
+            cursor: pointer;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            margin-top: 30px; 
+            background: var(--accent); 
+            border: none; 
+            border-radius: 10px; 
+            color: #064e3b; 
+            font-weight: 800; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.1s, opacity 0.3s; 
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:hover { 
+            opacity: 0.9;
+        }
+
+        #results { 
+            margin-top: 25px; 
+            padding: 20px; 
+            border-radius: 10px; 
+            background: #0f172a; 
+            display: none; 
+            border: 1px solid var(--accent); 
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .score-box { font-size: 1.5rem; font-weight: bold; color: var(--text-primary); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>IoT Engineer Checklist</h2>
+    <p class="subtitle">Is your hardware-software stack ready for the 2026 Edge era?</p>
+    
+    <div class="option-group" id="iot-options">
+        <label class="checkbox-item"><input type="checkbox" value="Matter"> Matter & Thread Protocol Integration</label>
+        <label class="checkbox-item"><input type="checkbox" value="EdgeAI"> TinyML & On-Device Edge AI</label>
+        <label class="checkbox-item"><input type="checkbox" value="Security"> Hardware Root of Trust (RoT) & PSA</label>
+        <label class="checkbox-item"><input type="checkbox" value="DigitalTwin"> Digital Twins (NVIDIA Omniverse/Azure)</label>
+        <label class="checkbox-item"><input type="checkbox" value="LPWAN"> LPWAN Mastery (LoRaWAN / NB-IoT)</label>
+        <label class="checkbox-item"><input type="checkbox" value="Rust"> Embedded Rust for Memory Safety</label>
+        <label class="checkbox-item"><input type="checkbox" value="OTA"> Robust Delta OTA Update Systems</label>
+        <label class="checkbox-item"><input type="checkbox" value="Green"> Energy Harvesting & Low-Power Optimization</label>
+        <label class="checkbox-item"><input type="checkbox" value="TSN"> Time-Sensitive Networking (TSN)</label>
+    </div>
+
+    <button onclick="calculateIoTReadiness()">Analyze System Readiness</button>
+
+    <div id="results">
+        <div class="score-box">Deployment Score: <span id="score">0</span>%</div>
+        <p id="feedback" style="font-size: 0.95rem; margin-top: 10px; color: var(--text-secondary);"></p>
+    </div>
+</div>
+
+<script>
+    // Critical IoT Pillars for 2026
+    const iotPillars = ["Matter", "EdgeAI", "Security", "DigitalTwin", "Rust", "OTA", "Green"];
+
+    function calculateIoTReadiness() {
+        const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        const resultsDiv = document.getElementById('results');
+        const scoreSpan = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        const matched = iotPillars.filter(item => selected.includes(item));
+        const scoreVal = Math.round((matched.length / iotPillars.length) * 100);
+
+        resultsDiv.style.display = 'block';
+        scoreSpan.innerText = scoreVal;
+        
+        if (scoreVal >= 80) {
+            feedback.innerText = "🚀 Systems Architect: You are building the future of autonomous, secure, and intelligent distributed networks.";
+        } else if (scoreVal >= 50) {
+            feedback.innerText = "📟 Embedded Pro: Solid foundation. Transition from legacy C to Rust and start implementing TinyML for edge intelligence.";
+        } else {
+            feedback.innerText = "⚠️ Prototype Phase: High risk of technical debt. Focus on modern security standards and standardized protocols like Matter.";
+        }
+    }
+</script>
+
+</body>
+</html>

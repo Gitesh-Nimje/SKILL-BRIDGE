@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStack Comparison</title>
+    <style>
+        :root {
+            --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --success: #4ade80; --text: #f8fafc;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; }
+        .container { background: var(--card); padding: 2rem; border-radius: 16px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: var(--accent); margin-bottom: 5px; }
+        .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; }
+        .option-group { display: grid; gap: 8px; }
+        .checkbox-item { display: flex; align-items: center; padding: 12px; background: #334155; border-radius: 8px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .checkbox-item:hover { border-color: var(--accent); }
+        input[type="checkbox"] { accent-color: var(--accent); margin-right: 12px; width: 18px; height: 18px; }
+        
+        button { width: 100%; padding: 12px; margin-top: 20px; background: var(--accent); border: none; border-radius: 8px; color: var(--bg); font-weight: bold; cursor: pointer; font-size: 1rem; }
+        button:hover { opacity: 0.9; }
+
+        #results { margin-top: 25px; padding: 20px; border-radius: 10px; background: #0f172a; display: none; border: 1px solid #334155; }
+        .score-box { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .missing-list { color: #f87171; font-size: 0.9rem; list-style: none; padding: 0; }
+        .missing-list li::before { content: "→ "; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Skills Checklist</h2>
+    <p class="subtitle">Select your skills and compare to the 2026 Ideal List.</p>
+    
+    <div class="option-group" id="stack-options">
+        <label class="checkbox-item"><input type="checkbox" value="HTML/CSS"> HTML5 & Modern CSS</label>
+        <label class="checkbox-item"><input type="checkbox" value="JavaScript"> JavaScript (ES6+)</label>
+        <label class="checkbox-item"><input type="checkbox" value="React/Next.js"> React / Next.js</label>
+        <label class="checkbox-item"><input type="checkbox" value="TypeScript"> TypeScript</label>
+        <label class="checkbox-item"><input type="checkbox" value="Tailwind"> Tailwind CSS</label>
+        <label class="checkbox-item"><input type="checkbox" value="Node.js"> Node.js / Express</label>
+        <label class="checkbox-item"><input type="checkbox" value="Django"> Django</label>
+        <label class="checkbox-item"><input type="checkbox" value="Git"> Git & Version Control</label>
+        <label class="checkbox-item"><input type="checkbox" value="SQL"> SQL Databases</label>
+    </div>
+
+    <button onclick="compareStacks()">Analyze My Stack</button>
+
+    <div id="results">
+        <div class="score-box">eScore: <span id="score">0</span>%</div>
+        <p id="feedback"></p>
+        <div id="missing-section">
+            <p style="font-size: 0.8rem; margin-bottom: 5px; color: #94a3b8;">To reach the "Ideal" level, consider learning:</p>
+            <ul class="missing-list" id="missing-items"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // The "Ideal" list for a modern web developer
+    const idealList = ["HTML/CSS", "JavaScript", "React/Next.js", "TypeScript", "Tailwind", "Node.js", "Git", "SQL"];
+
+    function compareStacks() {
+        const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        const resultsDiv = document.getElementById('results');
+        const scoreSpan = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+        const missingUl = document.getElementById('missing-items');
+
+        // Calculate eScore (Percentage of ideal items found in user selection)
+        const matched = idealList.filter(item => selected.includes(item));
+        const missing = idealList.filter(item => !selected.includes(item));
+        const escore = Math.round((matched.length / idealList.length) * 100);
+
+        // UI Updates
+        resultsDiv.style.display = 'block';
+        scoreSpan.innerText = escore;
+        
+        if (escore === 100) {
+            feedback.innerText = "🔥 Perfect! You have the complete modern stack.";
+            document.getElementById('missing-section').style.display = 'none';
+        } else if (escore >= 70) {
+            feedback.innerText = "🚀 Great start! You're almost industry-ready.";
+            document.getElementById('missing-section').style.display = 'block';
+        } else {
+            feedback.innerText = "📚 Keep learning! Focus on the core essentials below.";
+            document.getElementById('missing-section').style.display = 'block';
+        }
+
+        // Show missing items
+        missingUl.innerHTML = missing.map(item => `<li>${item}</li>`).join('');
+    }
+</script>
+
+</body>
+</html>

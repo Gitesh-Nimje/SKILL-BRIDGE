@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI/UX Designer 2026 | Readiness Check</title>
+    <style>
+        :root {
+            --bg: #111827; 
+            --card: #1f2937; 
+            --accent: #8b5cf6; 
+            --item-bg: #374151;
+            --text-primary: #a78bfa;
+            --text-secondary: #9ca3af;
+            --white: #ffffff;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg); 
+            color: var(--white); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container { 
+            background: var(--card); 
+            padding: 2.5rem; 
+            border-radius: 16px; 
+            width: 100%; 
+            max-width: 500px; 
+            border: 1px solid #374151; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+        }
+
+        h2 { 
+            color: var(--text-primary); 
+            margin-bottom: 8px; 
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle { 
+            color: var(--text-secondary); 
+            font-size: 0.95rem; 
+            margin-bottom: 25px; 
+        }
+
+        .option-group { 
+            display: flex;
+            flex-direction: column;
+            gap: 12px; 
+        }
+
+        .checkbox-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 14px 18px; 
+            background: var(--item-bg); 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .checkbox-item:hover { 
+            background: #4b5563; 
+        }
+
+        input[type="checkbox"] { 
+            accent-color: var(--accent); 
+            margin-right: 15px; 
+            width: 18px; 
+            height: 18px; 
+            cursor: pointer;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            margin-top: 30px; 
+            background: var(--accent); 
+            border: none; 
+            border-radius: 10px; 
+            color: var(--white); 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            transition: opacity 0.3s; 
+        }
+
+        button:hover { 
+            opacity: 0.9;
+        }
+
+        #results { 
+            margin-top: 25px; 
+            padding: 20px; 
+            border-radius: 10px; 
+            background: #111827; 
+            display: none; 
+            border: 1px solid var(--accent); 
+        }
+
+        .score-box { font-size: 1.5rem; font-weight: bold; color: var(--text-primary); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>UI/UX Designer Checklist</h2>
+    <p class="subtitle">Is your design workflow ready for the 2026 spatial web?</p>
+    
+    <div class="option-group" id="stack-options">
+        <label class="checkbox-item"><input type="checkbox" value="Figma"> Advanced Figma (Variables/Auto-Layout)</label>
+        <label class="checkbox-item"><input type="checkbox" value="DesignTokens"> Design Tokens & System Scaling</label>
+        <label class="checkbox-item"><input type="checkbox" value="Spatial"> Spatial UI (AR/VR/XR Interfaces)</label>
+        <label class="checkbox-item"><input type="checkbox" value="Proto"> High-Fidelity Prototyping (Protopie/Framer)</label>
+        <label class="checkbox-item"><input type="checkbox" value="AI"> AI-Assisted Design (Magician/Midjourney)</label>
+        <label class="checkbox-item"><input type="checkbox" value="UXResearch"> Data-Driven UX Research & Analytics</label>
+        <label class="checkbox-item"><input type="checkbox" value="Accessibility"> WCAG 3.0 & Inclusive Design</label>
+        <label class="checkbox-item"><input type="checkbox" value="Motion"> Micro-interactions & Motion Design</label>
+        <label class="checkbox-item"><input type="checkbox" value="Handoff"> Dev Handoff (Storybook/Code-Connect)</label>
+    </div>
+
+    <button onclick="calculateDesignerReadiness()">Check Design Readiness</button>
+
+    <div id="results">
+        <div class="score-box">Readiness Score: <span id="score">0</span>%</div>
+        <p id="feedback" style="font-size: 0.95rem; margin-top: 10px; color: var(--text-secondary);"></p>
+    </div>
+</div>
+
+<script>
+    // Critical Designer Pillars for 2026
+    const designerPillars = ["DesignTokens", "Spatial", "Proto", "AI", "UXResearch", "Accessibility", "Handoff"];
+
+    function calculateDesignerReadiness() {
+        const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        const resultsDiv = document.getElementById('results');
+        const scoreSpan = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        const matched = designerPillars.filter(item => selected.includes(item));
+        const scoreVal = Math.round((matched.length / designerPillars.length) * 100);
+
+        resultsDiv.style.display = 'block';
+        scoreSpan.innerText = scoreVal;
+        
+        if (scoreVal >= 80) {
+            feedback.innerText = "🎨 Design Visionary: You are at the forefront of the spatial and AI-driven design era.";
+        } else if (scoreVal >= 50) {
+            feedback.innerText = "✨ Product Designer: Great core skills. Start exploring Spatial UI and automated Design Systems.";
+        } else {
+            feedback.innerText = "⚠️ Pixel Pusher: Focus on modernizing your workflow with AI tools and high-fidelity prototyping.";
+        }
+    }
+</script>
+
+</body>
+</html> 

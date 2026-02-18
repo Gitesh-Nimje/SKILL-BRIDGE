@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Stack Comparison</title>
+    <style>
+        :root {
+            --bg: #0f172a; --card: #1e293b; --accent: #8b5cf6; --success: #4ade80; --text: #f8fafc;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; }
+        .container { background: var(--card); padding: 2rem; border-radius: 16px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
+        h2 { color: var(--accent); margin-bottom: 5px; }
+        .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; }
+        .option-group { display: grid; gap: 8px; }
+        .checkbox-item { display: flex; align-items: center; padding: 12px; background: #334155; border-radius: 8px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .checkbox-item:hover { border-color: var(--accent); }
+        input[type="checkbox"] { accent-color: var(--accent); margin-right: 12px; width: 18px; height: 18px; }
+        
+        button { width: 100%; padding: 12px; margin-top: 20px; background: var(--accent); border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        #results { margin-top: 25px; padding: 20px; border-radius: 10px; background: #0f172a; display: none; border: 1px solid #334155; }
+        .score-box { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .missing-list { color: #f87171; font-size: 0.9rem; list-style: none; padding: 0; }
+        .missing-list li::before { content: "⚡ "; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Data Scientist Checklist</h2>
+    <p class="subtitle">Evaluate your toolkit against the 2026 AI-Ready standard.</p>
+    
+    <div class="option-group" id="stack-options">
+        <label class="checkbox-item"><input type="checkbox" value="Python (Pandas/NumPy)"> Python (Pandas/NumPy)</label>
+        <label class="checkbox-item"><input type="checkbox" value="SQL & Data Warehousing"> SQL & Data Warehousing</label>
+        <label class="checkbox-item"><input type="checkbox" value="Machine Learning (Scikit-Learn)"> Machine Learning (Scikit-Learn)</label>
+        <label class="checkbox-item"><input type="checkbox" value="Deep Learning (PyTorch/TF)"> Deep Learning (PyTorch/TF)</label>
+        <label class="checkbox-item"><input type="checkbox" value="Statistics & Probability"> Statistics & Probability</label>
+        <label class="checkbox-item"><input type="checkbox" value="LLM Orchestration (LangChain)"> LLM Orchestration (LangChain)</label>
+        <label class="checkbox-item"><input type="checkbox" value="Data Visualization (Tableau/Seaborn)"> Visualization (Tableau/Plotly)</label>
+        <label class="checkbox-item"><input type="checkbox" value="Cloud (AWS/GCP/Azure)"> Cloud (AWS/GCP/Azure)</label>
+        <label class="checkbox-item"><input type="checkbox" value="MLOps & Docker"> MLOps & Docker</label>
+    </div>
+
+    <button onclick="compareStacks()">Calculate Readiness Score</button>
+
+    <div id="results">
+        <div class="score-box">Readiness: <span id="score">0</span>%</div>
+        <p id="feedback" style="margin-bottom: 15px; font-weight: 500;"></p>
+        <div id="missing-section">
+            <p style="font-size: 0.8rem; margin-bottom: 8px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Skills to master next:</p>
+            <ul class="missing-list" id="missing-items"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // The "Ideal" list for a modern Data Scientist in 2026
+    const idealList = [
+        "Python (Pandas/NumPy)", 
+        "SQL & Data Warehousing", 
+        "Machine Learning (Scikit-Learn)", 
+        "Deep Learning (PyTorch/TF)", 
+        "Statistics & Probability", 
+        "LLM Orchestration (LangChain)",
+        "Data Visualization (Tableau/Seaborn)",
+        "MLOps & Docker"
+    ];
+
+    function compareStacks() {
+        const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        const resultsDiv = document.getElementById('results');
+        const scoreSpan = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+        const missingUl = document.getElementById('missing-items');
+
+        const matched = idealList.filter(item => selected.includes(item));
+        const missing = idealList.filter(item => !selected.includes(item));
+        const escore = Math.round((matched.length / idealList.length) * 100);
+
+        resultsDiv.style.display = 'block';
+        scoreSpan.innerText = escore;
+        
+        if (escore === 100) {
+            feedback.innerText = "🌟 Unicorn Status! You are a full-stack Data Scientist.";
+            feedback.style.color = "#4ade80";
+            document.getElementById('missing-section').style.display = 'none';
+        } else if (escore >= 60) {
+            feedback.innerText = "📊 Solid Foundation. Time to specialize in the gaps.";
+            feedback.style.color = "#f8fafc";
+            document.getElementById('missing-section').style.display = 'block';
+        } else {
+            feedback.innerText = "📉 Building Phase. Focus on Math and Python core.";
+            feedback.style.color = "#94a3b8";
+            document.getElementById('missing-section').style.display = 'block';
+        }
+
+        missingUl.innerHTML = missing.map(item => `<li>${item}</li>`).join('');
+    }
+</script>
+
+</body>
+</html>
