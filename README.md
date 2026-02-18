@@ -27,7 +27,7 @@ Database: MongoDB / JSON
 - Gitesh Nimje
 - Divyani Dudhe
 - Aditi Bhoyar
-- Darshan 
+- Darshan Gaidhane
 ## 📌 Future Scope
 - Resume Analyzer
 - AI-based Career Recommendation
